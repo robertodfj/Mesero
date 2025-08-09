@@ -66,6 +66,10 @@ public class Comanda {
         return id;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
     public Mesa getMesa() {
         return mesa;
     }

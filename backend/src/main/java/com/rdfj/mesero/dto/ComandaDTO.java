@@ -3,6 +3,7 @@ package com.rdfj.mesero.dto;
 import java.sql.Date;
 import java.util.List;
 
+import com.rdfj.mesero.entity.Comanda.Estado;;
 
 public class ComandaDTO {
     private int id;
@@ -12,12 +13,6 @@ public class ComandaDTO {
     private Date fechaInicio;
 
     private Date fechaFin;
-
-    public enum Estado{
-        abierta,
-        cerrada,
-        cancelada
-    }
 
     private Estado estado;
 
@@ -42,6 +37,10 @@ public class ComandaDTO {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public MesaDTO getMesa() {

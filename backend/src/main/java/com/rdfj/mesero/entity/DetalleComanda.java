@@ -50,6 +50,10 @@ public class DetalleComanda {
         return id;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
     public Comanda getComanda() {
         return comanda;
     }
