@@ -35,6 +35,18 @@ public class Mesa {
     @Min(value = 1, message = "El numero de mesa debe ser mayor o igual a 1")
     private int capacidad;
 
+    // Constructor
+
+    public Mesa(){
+
+    }
+
+    public Mesa(int numeroMesa, Estado estado, int capacidad){
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.capacidad = capacidad;
+    }
+
     // Getters y setters
     public int getId() {
         return id;
