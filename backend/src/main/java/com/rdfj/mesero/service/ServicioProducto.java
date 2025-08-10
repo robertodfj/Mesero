@@ -25,7 +25,7 @@ public class ServicioProducto {
     }
 
     // Vet todos los productos
-    public List<Producto> todosProducto(){
+    public List<Producto> verProductos(){
         return repositorioProducto.findAll();
     }
 
