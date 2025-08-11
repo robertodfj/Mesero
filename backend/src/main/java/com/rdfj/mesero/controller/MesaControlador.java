@@ -1,6 +1,9 @@
 package com.rdfj.mesero.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +32,10 @@ public class MesaControlador {
 
     // Añadir mesa
     @PostMapping("/crear")
-    public ResponseEntity<?> añadirMesa(@Valid @RequestBody Mesa mesa){
+    public ResponseEntity<?> añadirMesa(@Valid @RequestBody MesaDTO mesaDTO){
 
         try {
+            Mesa mesa = MesaMapper.dtoToMesa(mesaDTO);
             Mesa nuevaMesa = repositorioMesa.save(mesa);
             MesaDTO nuevaMesaDTO = MesaMapper.mesaToDTO(nuevaMesa);
             return ResponseEntity.ok(nuevaMesaDTO);
@@ -49,6 +53,19 @@ public class MesaControlador {
             return ResponseEntity.ok("Mesa eliminada correctamente");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al eliminar mesa" + e.getMessage());
+        }
+    }
+
+    // Mostrar todas
+    public ResponseEntity<?> mostrarTodas(){
+        try {
+            List<Mesa> mesas = repositorioMesa.findAll();
+            List<MesaDTO> mesaDTO = mesas.stream()
+                .map(MesaMapper::mesaToDTO)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(mesaDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("No se encuentran mesas" +e.getMessage());
         }
     }
     
