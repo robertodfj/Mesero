@@ -42,7 +42,7 @@ public class ServicioComanda {
         double total = comanda.getDetalles().stream()
             .mapToDouble(DetalleComanda::getSubtotal)
             .sum();
-
+        comanda.setTotal(total);
         return repositorioComanda.save(comanda);
 
     }
