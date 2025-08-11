@@ -2,7 +2,6 @@ package com.rdfj.mesero.service;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,7 +57,7 @@ public class ServicioComanda {
     }
 
     // Mostrar las comandas de fecha inicio
-    public Optional<Comanda> buscarComanda(Date fecha){
+    public List<Comanda> buscarComanda(Date fecha){
         return repositorioComanda.findByFechaInicio(fecha);
     }
 }

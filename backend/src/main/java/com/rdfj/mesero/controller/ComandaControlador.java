@@ -69,7 +69,28 @@ public class ComandaControlador {
     }
 
     // Mostar por fecha
-    
+    @GetMapping("{fecha}")
+    public ResponseEntity<?> mostrarFecha(@PathVariable String fecha){
+        try {
+            
+            Date fechaInicio = Date.valueOf(fecha);
+            List<Comanda> comandas = repositorioComanda.findByFechaInicio(fechaInicio);
+            if (comandas.isEmpty()) {
+                return ResponseEntity.status(404).body("No existen comandas de esa fecha");
+            }
+
+            List<ComandaDTO> comandaDTO = comandas.stream()
+                .map(ComandaMapper::comandaToDTO)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(comandaDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Formato de fecha incorrecto");
+        } catch (Exception e){
+            return ResponseEntity.status(500).body("Error al buscar comanda" + e.getMessage());
+        }
+    }
+
     // Mostrar todas
     @GetMapping("/todas")
     public ResponseEntity<?> mostrarTodas(){
