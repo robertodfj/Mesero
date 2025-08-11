@@ -32,5 +32,12 @@ public class ComandaControlador {
             return ResponseEntity.status(500).body("Error al añadir comanda");
         }
     }
+
+    // Editar comanda (Añadiendo (detalleComanda)
+
+    // Eliminar comanda
+
+    // Mostrar todas
+    
     
 }
