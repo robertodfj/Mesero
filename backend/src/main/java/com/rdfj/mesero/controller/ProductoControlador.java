@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,7 @@ public class ProductoControlador {
             return ResponseEntity.status(500).body("Error al eliminar producto" +e.getMessage());
         }
     }
+
     // Buscar por nombre
     @GetMapping("/{nombreProducto}")
     public ResponseEntity<?> buscarNombre(@PathVariable String nombreProducto){
@@ -67,7 +69,30 @@ public class ProductoControlador {
             return ResponseEntity.status(500).body("Error al bscar producto" +e.getMessage());
         }
     }
+
     // Editar producto
+    @PutMapping("/editar/{nombreProducto}")
+    public ResponseEntity<?> editar(@PathVariable String nombreProducto, @RequestBody ProductoDTO productoDTO){
+        try {
+            Producto producto = repositorioProducto.findByNombre(nombreProducto);
+            if (producto == null) {
+                return ResponseEntity.status(404).body("Producto no encontrado");
+            }
+
+            producto.setNombre(productoDTO.getNombre());
+            producto.setCategoria(productoDTO.getCategoria());
+            producto.setPrecio(productoDTO.getPrecio());
+
+            Producto productoActualizado = repositorioProducto.save(producto);
+
+            ProductoDTO productoActualizadoDTO = ProductoMapper.productoToDTO(productoActualizado);
+            
+            return ResponseEntity.ok(productoActualizadoDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al editar producto: " +e.getMessage());
+        }        
+    }
 
     // Mostrar todos
     @GetMapping
