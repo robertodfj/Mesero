@@ -23,7 +23,7 @@ import com.rdfj.mesero.repository.RepositorioMesa;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/mesa")
+@RequestMapping("/mesas")
 public class MesaControlador {
     
     @Autowired

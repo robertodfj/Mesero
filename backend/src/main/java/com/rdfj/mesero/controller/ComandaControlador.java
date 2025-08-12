@@ -24,7 +24,7 @@ import com.rdfj.mesero.service.ServicioComanda;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/comanda")
+@RequestMapping("/comandas")
 public class ComandaControlador {
 
     @Autowired
