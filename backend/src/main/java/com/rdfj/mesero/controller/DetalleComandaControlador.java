@@ -1,10 +1,13 @@
 package com.rdfj.mesero.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +46,7 @@ public class DetalleComandaControlador {
 
     // Eliminar detalle 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable int id){
+    public ResponseEntity<?> eliminar(@PathVariable Integer id){
         try {
             Optional<DetalleComanda> detalleComanda = repositorioDetalle.findById(id);
             if (detalleComanda.isEmpty()) {
@@ -55,7 +58,40 @@ public class DetalleComandaControlador {
             return ResponseEntity.status(500).body("Error al borrar detalle: " +e.getMessage());
         }
     }
+
     // Mostrar todos
+    @GetMapping
+    public ResponseEntity<?> mostrarTodas(){
+        try {
+            List<DetalleComanda> detalleComanda = repositorioDetalle.findAll();
+            if (detalleComanda.isEmpty()) {
+                return ResponseEntity.status(200).body("No se encuentran detalles");
+            }
+            List<DetalleComandaDTO> detalleComandaDTO = detalleComanda.stream()
+                .map(DetalleComandaMapper::detalleComandaToDTO)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(detalleComandaDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al buscar detalles: " +e.getMessage());
+        }
+
+    }
 
     // Mostrar por id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> mostrarId(@PathVariable Integer id){
+        try {
+            Optional<DetalleComanda> detalleComanda = repositorioDetalle.findById(id);
+            if (detalleComanda.isEmpty()) {
+                return ResponseEntity.status(404).body("Detalle no encontrado");
+            }
+            
+            DetalleComandaDTO detalleComandaDTO = DetalleComandaMapper
+                .detalleComandaToDTO(detalleComanda.get());
+
+            return ResponseEntity.ok(detalleComandaDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al buscar detalle por id: " +e.getMessage());
+        }
+    }
 }
