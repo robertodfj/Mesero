@@ -1,5 +1,5 @@
 package com.rdfj.mesero.security;
 
-public class JWTutil {
+public class SecurityConfig {
     
 }
