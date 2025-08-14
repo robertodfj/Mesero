@@ -1,17 +1,23 @@
 package com.rdfj.mesero.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 
 @Entity
+@Table(
+    uniqueConstraints = @UniqueConstraint(columnNames = {"numeroMesa", "bar_id"})
+)
 public class Mesa {
 
     @Id
@@ -19,7 +25,6 @@ public class Mesa {
     private int id;
 
     @Min(value = 1, message = "El numero de mesa debe ser mayor o igual a 1")
-    @Column(unique = true)
     private int numeroMesa;
 
     public enum Estado{
@@ -35,16 +40,19 @@ public class Mesa {
     @Min(value = 1, message = "El numero de mesa debe ser mayor o igual a 1")
     private int capacidad;
 
+    @ManyToOne
+    @JoinColumn(name = "bar_id", nullable = false)
+    private Bar bar;
+
     // Constructor
 
-    public Mesa(){
+    public Mesa(){}
 
-    }
-
-    public Mesa(int numeroMesa, Estado estado, int capacidad){
+    public Mesa(int numeroMesa, Estado estado, int capacidad, Bar bar){
         this.numeroMesa = numeroMesa;
         this.estado = estado;
         this.capacidad = capacidad;
+        this.bar = bar;
     }
 
     // Getters y setters
@@ -78,6 +86,14 @@ public class Mesa {
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
+    public void setBar(Bar bar) {
+        this.bar = bar;
     }
 
 }

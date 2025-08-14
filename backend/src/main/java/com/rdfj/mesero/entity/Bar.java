@@ -1,5 +1,6 @@
 package com.rdfj.mesero.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -9,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -25,15 +25,17 @@ public class Bar {
     @NotBlank(message = "La direccion del bar no puede estar vacia.")
     private String direccion;
 
-    @Min(value = 1, message = "El numero de telefono no puede estar vacio")
+    @NotBlank(message = "El numero de telefono no puede estar vacio.")
     @Column(unique = true)
     private String telefono;
 
-    @OneToMany(mappedBy = "bar", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Mesa> mesas;
+    // Creamos un array vacio para evitar nullpointexception
 
     @OneToMany(mappedBy = "bar", cascade = CascadeType.ALL, orphanRemoval = true)
-    private  List<Usuario> usuarios;
+    private List<Mesa> mesas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "bar", cascade = CascadeType.ALL, orphanRemoval = true)
+    private  List<Usuario> usuarios = new ArrayList<>();
 
     // Constructor
 
