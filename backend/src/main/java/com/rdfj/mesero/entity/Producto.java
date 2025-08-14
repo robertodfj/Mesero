@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Producto {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,7 +23,13 @@ public class Producto {
     @DecimalMin(value = "0.01", message = "El precio tiene que ser mayor de 0")
     private double precio;
 
-    public enum Categoria{
+    @DecimalMin(value = "0.01", message = "El precio de compra tiene que ser mayor de 0")
+    private double precioCompraUD;
+
+    @DecimalMin(value = "0.01", message = "El precio de venta tiene que ser mayor de 0")
+    private double precioVentaUD;
+
+    public enum Categoria {
         comida,
         bebida
     }
@@ -32,47 +38,64 @@ public class Producto {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    // Constructor
+    // Constructor 
     public Producto() {
     }
 
-    public Producto(String nombre, double precio, Categoria categoria) {
+    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria) {
         this.nombre = nombre;
         this.precio = precio;
+        this.precioCompraUD = precioCompraUD;
+        this.precioVentaUD = precioVentaUD;
         this.categoria = categoria;
     }
 
     // Getters y setters
-
-    public int getId() {
-        return id;
+    public int getId() { 
+        return id; 
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void setId(int id) { 
+        this.id = id; 
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombre() { 
+        return nombre; 
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String nombre) { 
+        this.nombre = nombre; 
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrecio() { 
+        return precio; 
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecio(double precio) { 
+        this.precio = precio; 
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public double getPrecioCompraUD() { 
+        return precioCompraUD; 
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setPrecioCompraUD(double precioCompraUD) { 
+        this.precioCompraUD = precioCompraUD; 
+    }
+
+    public double getPrecioVentaUD() { 
+        return precioVentaUD; 
+    }
+
+    public void setPrecioVentaUD(double precioVentaUD) { 
+        this.precioVentaUD = precioVentaUD; 
+    }
+
+    public Categoria getCategoria() { 
+        return categoria; 
+    }
+
+    public void setCategoria(Categoria categoria) { 
+        this.categoria = categoria; 
     }
 }
