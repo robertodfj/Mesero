@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.rdfj.mesero.entity.Producto;
 
 public interface RepositorioProducto extends JpaRepository<Producto, Integer>{
-    Producto findByNombre(String nombre);
-    boolean existsByNombre(String nombre);
-    List<Producto> findAll();
+    Producto findByNombreAndBarId(String nombre, Integer barId);
+    boolean existsByNombreAndBarId(String nombre, Integer barId);
+    List<Producto> findAllByBarId(Integer barId);
 } 
