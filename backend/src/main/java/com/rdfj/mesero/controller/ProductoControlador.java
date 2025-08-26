@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rdfj.mesero.dto.ProductoDTO;
 import com.rdfj.mesero.entity.Producto;
 import com.rdfj.mesero.mapper.ProductoMapper;
-import com.rdfj.mesero.repository.RepositorioProducto;
+import com.rdfj.mesero.service.ServicioProducto;
 
 import jakarta.validation.Valid;
 
@@ -28,53 +28,36 @@ import jakarta.validation.Valid;
 public class ProductoControlador {
 
     @Autowired
-    private RepositorioProducto repositorioProducto;
+    private ServicioProducto servicioProducto;
 
-    // Añadir producto
+    // Crear producto
     @PostMapping("/crear")
-    public ResponseEntity<?> crearProducto(@Valid @RequestBody ProductoDTO productoDTO){
+    public ResponseEntity<?> crearProducto(@Valid @RequestBody ProductoDTO productoDTO) {
         try {
             Producto producto = ProductoMapper.productoDTOToProducto(productoDTO);
-            Producto nuevoProducto = repositorioProducto.save(producto);
-            ProductoDTO nuevProductoDTO = ProductoMapper.productoToDTO(nuevoProducto);
-            return ResponseEntity.ok(nuevProductoDTO);
+            Producto nuevoProducto = servicioProducto.añadirProducto(producto);
+            return ResponseEntity.ok(ProductoMapper.productoToDTO(nuevoProducto));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al crear producto"+e.getMessage());
+            return ResponseEntity.status(500).body("Error al crear producto: " + e.getMessage());
         }
     }
 
-    // Eliminar producto
-    @DeleteMapping("/eliminar/{nombreProducto}")
-    public ResponseEntity<?> eliminarProducto(@PathVariable String nombreProducto){
+    // Eliminar producto por ID
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminarProducto(@PathVariable Integer id) {
         try {
-            Producto producto = repositorioProducto.findByNombre(nombreProducto);
-            if (producto == null) {
-                return ResponseEntity.status(404).body("Producto no encontrado");
-            }
-            repositorioProducto.delete(producto);
+            servicioProducto.eliminarProducto(id);
             return ResponseEntity.ok("Producto eliminado correctamente");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al eliminar producto" +e.getMessage());
-        }
-    }
-
-    // Buscar por nombre
-    @GetMapping("/{nombreProducto}")
-    public ResponseEntity<?> buscarNombre(@PathVariable String nombreProducto){
-        try {
-            Producto producto = repositorioProducto.findByNombre(nombreProducto);
-            ProductoDTO productoDTO = ProductoMapper.productoToDTO(producto);
-            return ResponseEntity.ok(productoDTO);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al bscar producto" +e.getMessage());
+            return ResponseEntity.status(500).body("Error al eliminar producto: " + e.getMessage());
         }
     }
 
     // Editar producto
-    @PutMapping("/editar/{nombreProducto}")
-    public ResponseEntity<?> editar(@PathVariable String nombreProducto, @RequestBody ProductoDTO productoDTO){
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editarProducto(@PathVariable Integer id, @Valid @RequestBody ProductoDTO productoDTO) {
         try {
-            Producto producto = repositorioProducto.findByNombre(nombreProducto);
+            Producto producto = servicioProducto.buscarPorId(id);
             if (producto == null) {
                 return ResponseEntity.status(404).body("Producto no encontrado");
             }
@@ -83,35 +66,27 @@ public class ProductoControlador {
             producto.setCategoria(productoDTO.getCategoria());
             producto.setPrecio(productoDTO.getPrecio());
 
-            Producto productoActualizado = repositorioProducto.save(producto);
-
-            ProductoDTO productoActualizadoDTO = ProductoMapper.productoToDTO(productoActualizado);
-            
-            return ResponseEntity.ok(productoActualizadoDTO);
-
+            Producto actualizado = servicioProducto.añadirProducto(producto);
+            return ResponseEntity.ok(ProductoMapper.productoToDTO(actualizado));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al editar producto: " +e.getMessage());
-        }        
-    }
-
-    // Mostrar todos
-    @GetMapping
-    public ResponseEntity<?> mostrarTodos(){
-        try {
-            List<Producto> productos = repositorioProducto.findAll();
-            if (productos.isEmpty()) {
-                return ResponseEntity.status(404).body("No existen productos");
-            }
-
-            List<ProductoDTO> productosDto = productos.stream()
-                .map(ProductoMapper::productoToDTO)
-                .collect(Collectors.toList());
-
-            return ResponseEntity.ok(productosDto);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error al buscar productos" +e.getMessage());
+            return ResponseEntity.status(500).body("Error al editar producto: " + e.getMessage());
         }
     }
-    
+
+    // Mostrar todos los productos del bar del usuario
+    @GetMapping
+    public ResponseEntity<?> mostrarTodos() {
+        try {
+            List<Producto> productos = servicioProducto.verProductos();
+            if (productos.isEmpty()) {
+                return ResponseEntity.status(404).body("No existen productos en tu bar");
+            }
+            List<ProductoDTO> productosDto = productos.stream()
+                    .map(ProductoMapper::productoToDTO)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(productosDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al listar productos: " + e.getMessage());
+        }
+    }
 }

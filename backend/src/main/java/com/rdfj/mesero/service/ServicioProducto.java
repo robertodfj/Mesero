@@ -59,6 +59,13 @@ public class ServicioProducto {
         repositorioProducto.delete(producto);
     }
 
+    public Producto buscarPorId(Integer id) {
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Bar bar = usuario.getBar();
+
+        return repositorioProducto.findByIdAndBar(id, bar).orElse(null);
+    }
+
     // Vet todos los productos
     public List<Producto> verProductos(){
         Bar bar = getBar();
