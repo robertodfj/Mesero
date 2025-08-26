@@ -3,9 +3,6 @@ package com.rdfj.mesero.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rdfj.mesero.entity.Bar;
-import com.rdfj.mesero.entity.InventarioProducto;
-
 public class InventarioDTO {
     private int id;
     private BarDTO bar;
