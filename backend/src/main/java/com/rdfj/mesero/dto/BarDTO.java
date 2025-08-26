@@ -3,16 +3,16 @@ package com.rdfj.mesero.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rdfj.mesero.entity.Mesa;
-import com.rdfj.mesero.entity.Usuario;
+import com.rdfj.mesero.dto.MesaDTO;
+import com.rdfj.mesero.dto.UsuarioDTO;
 
 public class BarDTO {
     private int id;
     private String nombre;
     private String direccion;
     private String telefono;
-    private List<Mesa> mesas = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private List<MesaDTO> mesas = new ArrayList<>();
+    private List<UsuarioDTO> usuarios = new ArrayList<>();
 
      // Constructor
 
@@ -21,7 +21,7 @@ public class BarDTO {
     }
 
     public BarDTO(int id, String nombre, String direccion, 
-                String telefono, List<Mesa> mesas, List<Usuario> usuarios){
+                String telefono, List<MesaDTO> mesas, List<UsuarioDTO> usuarios){
 
                     this.id = id;
                     this.nombre = nombre;
