@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,16 +40,21 @@ public class Producto {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    // Constructor 
-    public Producto() {
-    }
+    // Relación con Bar (cada producto pertenece a un bar, no son productos globales)
+    @ManyToOne
+    @JoinColumn(name = "bar_id", nullable = false)
+    private Bar bar;
 
-    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria) {
+    // Constructor 
+    public Producto() {}
+
+    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria, Bar bar) {
         this.nombre = nombre;
         this.precio = precio;
         this.precioCompraUD = precioCompraUD;
         this.precioVentaUD = precioVentaUD;
         this.categoria = categoria;
+        this.bar = bar;
     }
 
     // Getters y setters
@@ -97,5 +104,13 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) { 
         this.categoria = categoria; 
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
+    public void setBar(Bar bar) {
+        this.bar = bar;
     }
 }
