@@ -11,7 +11,8 @@ public class InventarioDTO {
     // Constructor 
     public InventarioDTO() {}
 
-    public InventarioDTO(BarDTO bar, List<InventarioProductoDTO> productos) {
+    public InventarioDTO(int id, BarDTO bar, List<InventarioProductoDTO> productos) {
+        this.id = id;
         this.bar = bar;
         this.productos = productos;
     }
