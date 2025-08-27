@@ -3,8 +3,6 @@ package com.rdfj.mesero.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rdfj.mesero.dto.MesaDTO;
-import com.rdfj.mesero.dto.UsuarioDTO;
 
 public class BarDTO {
     private int id;
@@ -65,19 +63,19 @@ public class BarDTO {
         this.telefono = telefono;
     }
 
-    public List<Mesa> getMesas() {
+    public List<MesaDTO> getMesas() {
         return mesas;
     }
 
-    public void setMesas(List<Mesa> mesas) {
+    public void setMesas(List<MesaDTO> mesas) {
         this.mesas = mesas;
     }
 
-    public List<Usuario> getUsuarios() {
+    public List<UsuarioDTO> getUsuarios() {
         return usuarios;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
+    public void setUsuarios(List<UsuarioDTO> usuarios) {
         this.usuarios = usuarios;
     }
 }
