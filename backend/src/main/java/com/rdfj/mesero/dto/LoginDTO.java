@@ -3,15 +3,22 @@ package com.rdfj.mesero.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class LoginDTO {
-    @NotBlank(message = "El email no puede estar vacio")
+
+    @NotBlank(message = "El email no puede estar vacío")
     private String email;
-    
-    @NotBlank(message = "La contraseña no puede estar vacia")
+
+    @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
 
-    public LoginDTO() {
+    // Constructores
+    public LoginDTO() {}
+
+    public LoginDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
+    // Getters y setters
     public String getEmail() {
         return email;
     }

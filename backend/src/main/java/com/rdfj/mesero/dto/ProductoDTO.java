@@ -14,7 +14,7 @@ public class ProductoDTO {
 
     private BarDTO bar;
 
-    private InventarioDTO inventarioDTO;
+    private InventarioDTO inventario;
 
     public ProductoDTO() {}
 
@@ -66,11 +66,11 @@ public class ProductoDTO {
         this.bar = bar;
     }
 
-    public InventarioDTO getInventarioDTO() {
-        return inventarioDTO;
+    public InventarioDTO getInventario() {
+        return inventario;
     }
 
-    public void setInventarioDTO(InventarioDTO inventarioDTO) {
-        this.inventarioDTO = inventarioDTO;
+    public void setInventarioDTO(InventarioDTO inventario) {
+        this.inventario = inventario;
     }
 }

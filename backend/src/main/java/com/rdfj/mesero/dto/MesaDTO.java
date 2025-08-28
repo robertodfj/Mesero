@@ -1,28 +1,31 @@
 package com.rdfj.mesero.dto;
 
-
 public class MesaDTO {
     private int id;
-
     private int numeroMesa;
 
-    public enum Estado{
+    public enum Estado {
         Libre,
         Ocupada,
         Reservada
     };
-    
+
     private Estado estado;
-
     private int capacidad;
+    private int barId; 
 
-    // Constructor
+    // Constructores
+    public MesaDTO() {}
 
-    public MesaDTO(){
-
+    public MesaDTO(int id, int numeroMesa, Estado estado, int capacidad, int barId) {
+        this.id = id;
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.capacidad = capacidad;
+        this.barId = barId;
     }
 
-    public MesaDTO(int numeroMesa, Estado estado, int capacidad){
+    public MesaDTO(int numeroMesa, Estado estado, int capacidad) {
         this.numeroMesa = numeroMesa;
         this.estado = estado;
         this.capacidad = capacidad;
@@ -33,7 +36,7 @@ public class MesaDTO {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,5 +64,11 @@ public class MesaDTO {
         this.capacidad = capacidad;
     }
 
+    public int getBarId() {
+        return barId;
+    }
 
+    public void setBarId(int barId) {
+        this.barId = barId;
+    }
 }

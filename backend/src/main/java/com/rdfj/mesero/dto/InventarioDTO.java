@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventarioDTO {
+    
     private int id;
     private BarDTO bar;
     private List<InventarioProductoDTO> productos = new ArrayList<>();

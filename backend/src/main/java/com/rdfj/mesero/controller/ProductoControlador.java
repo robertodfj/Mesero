@@ -34,7 +34,7 @@ public class ProductoControlador {
     @PostMapping("/crear")
     public ResponseEntity<?> crearProducto(@Valid @RequestBody ProductoDTO productoDTO) {
         try {
-            Producto producto = ProductoMapper.productoDTOToProducto(productoDTO);
+            Producto producto = ProductoMapper.dtoToProducto(productoDTO);
             Producto nuevoProducto = servicioProducto.añadirProducto(producto);
             return ResponseEntity.ok(ProductoMapper.productoToDTO(nuevoProducto));
         } catch (Exception e) {

@@ -1,15 +1,12 @@
 package com.rdfj.mesero.dto;
 
 public class DetalleComandaDTO {
+
     private int id;
-
-    private int comandaId;  
+    private int comandaId;
     private ProductoDTO producto;
-
     private int cantidad;
-
     private String observaciones;
-
     private double precio;
 
     // Constructor 
@@ -23,8 +20,7 @@ public class DetalleComandaDTO {
         this.cantidad = cantidad;
     }
 
-    // Getters y setters
-
+    // Getters y Setters
     public int getId() {
         return id;
     }
@@ -73,6 +69,7 @@ public class DetalleComandaDTO {
         this.precio = precio;
     }
 
+    // Método para calcular subtotal
     public double getSubtotal() {
         return this.precio * this.cantidad;
     }

@@ -3,13 +3,14 @@ package com.rdfj.mesero.dto;
 import com.rdfj.mesero.entity.Usuario.Rol;
 
 public class UsuarioDTO {
+
     private int id;
     private String nombre;
     private String email;
     private BarDTO bar;
     private Rol rol;
 
-    // Constructor 
+    // Constructores
     public UsuarioDTO() {}
 
     public UsuarioDTO(int id, String nombre, String email, BarDTO bar, Rol rol) {
@@ -20,7 +21,7 @@ public class UsuarioDTO {
         this.rol = rol;
     }
 
-    // Getters y Setters
+    // Getters y setters
     public int getId() {
         return id;
     }

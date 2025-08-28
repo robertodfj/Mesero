@@ -5,6 +5,7 @@ import java.util.List;
 
 
 public class BarDTO {
+    
     private int id;
     private String nombre;
     private String direccion;

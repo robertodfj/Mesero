@@ -6,22 +6,16 @@ import java.util.List;
 import com.rdfj.mesero.entity.Comanda.Estado;;
 
 public class ComandaDTO {
+    
     private int id;
-
     private MesaDTO mesa;
-
     private Date fechaInicio;
-
     private Date fechaFin;
-
     private Estado estado;
-
     private List<DetalleComandaDTO> detalles;
-
     private double total;
 
     // Constructor
-
     public ComandaDTO() {
 
     }
