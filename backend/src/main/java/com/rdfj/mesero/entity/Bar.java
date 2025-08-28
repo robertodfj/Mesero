@@ -30,7 +30,7 @@ public class Bar {
     @Column(unique = true)
     private String telefono;
 
-    @OneToMany(mappedBy="bar")
+    @OneToMany(mappedBy="bar", cascade = CascadeType.ALL)
     private List<Producto> productos;
 
     @OneToOne(mappedBy="bar")
@@ -109,5 +109,21 @@ public class Bar {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public Inventario getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
     }
 }

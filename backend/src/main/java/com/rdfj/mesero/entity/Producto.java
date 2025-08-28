@@ -128,4 +128,6 @@ public class Producto {
     public void setInventario(Inventario inventario) {
         this.inventario = inventario;
     }
+
+    
 }

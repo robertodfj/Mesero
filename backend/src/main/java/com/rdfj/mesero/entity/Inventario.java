@@ -58,4 +58,18 @@ public class Inventario {
     public void setProductos(List<InventarioProducto> productos) {
         this.productos = productos;
     }
+    
+    public void inicializarProductos() {
+    if (bar != null && bar.getProductos() != null) {
+        for (Producto producto : bar.getProductos()) {
+            // Evita duplicar productos si ya existe
+            boolean existe = productos.stream()
+                .anyMatch(ip -> ip.getProducto().equals(producto));
+            if (!existe) {
+                InventarioProducto ip = new InventarioProducto(this, producto, 0, "unidad"); // unidad puede cambiar según tu lógica
+                productos.add(ip);
+            }
+        }
+    }
+}
 }

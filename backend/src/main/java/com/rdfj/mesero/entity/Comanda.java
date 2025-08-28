@@ -22,6 +22,10 @@ public class Comanda {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name="bar_id", nullable=false)
+    private Bar bar;
+
+    @ManyToOne
     @JoinColumn(name= "mesa_id", nullable = false)
     private Mesa mesa;
 
