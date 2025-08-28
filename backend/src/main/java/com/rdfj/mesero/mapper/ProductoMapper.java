@@ -46,8 +46,8 @@ public class ProductoMapper {
         }
 
         // Relación con Inventario
-        if (dto.getInventarioDTO() != null) {
-            producto.setInventario(InventarioMapper.dtoToInventario(dto.getInventarioDTO()));
+        if (dto.getInventario() != null) {
+            producto.setInventario(InventarioMapper.dtoToInventario(dto.getInventario()));
         }
 
         return producto;
