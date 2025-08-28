@@ -58,7 +58,7 @@ public class BarMapper {
                 .stream()
                 .map(MesaMapper::dtoToMesa)
                 .collect(Collectors.toList());
-            bar.setMesas(mesas); // 🔹 ahora sí se asigna
+            bar.setMesas(mesas); 
         }
 
         if (dto.getUsuarios() != null) {
@@ -66,7 +66,7 @@ public class BarMapper {
                 .stream()
                 .map(UsuarioMapper::dtoToUsuario)
                 .collect(Collectors.toList());
-            bar.setUsuarios(usuarios); // 🔹 ahora sí se asigna
+            bar.setUsuarios(usuarios); 
         }
 
         return bar;
