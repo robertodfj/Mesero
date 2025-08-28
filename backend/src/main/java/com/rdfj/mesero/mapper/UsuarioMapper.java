@@ -15,6 +15,11 @@ public class UsuarioMapper {
         dto.setNombre(usuario.getNombre());
         dto.setEmail(usuario.getEmail());
         dto.setRol(usuario.getRol());
+
+        if (usuario.getBar() != null) {
+            dto.setBar(BarMapper.barToDTO(usuario.getBar()));
+        }
+
         return dto;
     }
 
@@ -28,6 +33,11 @@ public class UsuarioMapper {
         usuario.setNombre(dto.getNombre());
         usuario.setEmail(dto.getEmail());
         usuario.setRol(dto.getRol());
+
+        if (dto.getBar() != null) {
+            usuario.setBar(BarMapper.dtoToBar(dto.getBar()));
+        }
+
         return usuario;
     }
 }
