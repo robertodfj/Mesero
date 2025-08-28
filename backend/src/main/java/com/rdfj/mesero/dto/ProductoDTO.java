@@ -3,6 +3,7 @@ package com.rdfj.mesero.dto;
 import com.rdfj.mesero.entity.Producto.Categoria;
 
 public class ProductoDTO {
+
     private int id;
 
     private String nombre;
@@ -10,6 +11,10 @@ public class ProductoDTO {
     private double precio;
 
     private Categoria categoria;
+
+    private BarDTO bar;
+
+    private InventarioDTO inventarioDTO;
 
     public ProductoDTO() {}
 
@@ -20,8 +25,7 @@ public class ProductoDTO {
         this.categoria = categoria;
     }
 
-    // Getters y setters
-
+    // Getters y setters básicos
     public int getId() {
         return id;
     }
@@ -52,5 +56,21 @@ public class ProductoDTO {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public BarDTO getBar() {
+        return bar;
+    }
+
+    public void setBar(BarDTO bar) {
+        this.bar = bar;
+    }
+
+    public InventarioDTO getInventarioDTO() {
+        return inventarioDTO;
+    }
+
+    public void setInventarioDTO(InventarioDTO inventarioDTO) {
+        this.inventarioDTO = inventarioDTO;
     }
 }

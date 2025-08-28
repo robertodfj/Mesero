@@ -5,6 +5,7 @@ import com.rdfj.mesero.entity.Producto;
 
 public class ProductoMapper {
 
+    // Entidad -> DTO
     public static ProductoDTO productoToDTO(Producto producto) {
         if (producto == null) {
             return null;
@@ -14,10 +15,22 @@ public class ProductoMapper {
         dto.setNombre(producto.getNombre());
         dto.setPrecio(producto.getPrecio());
         dto.setCategoria(producto.getCategoria());
+
+        // Relación con Bar
+        if (producto.getBar() != null) {
+            dto.setBar(BarMapper.barToDTO(producto.getBar()));
+        }
+
+        // Relación con Inventario
+        if (producto.getInventario() != null) {
+            dto.setInventarioDTO(InventarioMapper.inventarioToDTO(producto.getInventario()));
+        }
+
         return dto;
     }
 
-    public static Producto productoDTOToProducto(ProductoDTO dto) {
+    // DTO -> Entidad
+    public static Producto dtoToProducto(ProductoDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -26,6 +39,17 @@ public class ProductoMapper {
         producto.setNombre(dto.getNombre());
         producto.setPrecio(dto.getPrecio());
         producto.setCategoria(dto.getCategoria());
+
+        // Relación con Bar
+        if (dto.getBar() != null) {
+            producto.setBar(BarMapper.dtoToBar(dto.getBar()));
+        }
+
+        // Relación con Inventario
+        if (dto.getInventarioDTO() != null) {
+            producto.setInventario(InventarioMapper.dtoToInventario(dto.getInventarioDTO()));
+        }
+
         return producto;
     }
 }

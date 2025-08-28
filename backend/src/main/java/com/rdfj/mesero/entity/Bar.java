@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -28,6 +29,12 @@ public class Bar {
     @NotBlank(message = "El numero de telefono no puede estar vacio.")
     @Column(unique = true)
     private String telefono;
+
+    @OneToMany(mappedBy="bar")
+    private List<Producto> productos;
+
+    @OneToOne(mappedBy="bar")
+    private Inventario inventario;
 
     // Creamos un array vacio para evitar nullpointexception
 

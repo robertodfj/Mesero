@@ -19,7 +19,7 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "El nombre no puede estar vacio")
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
 
     @DecimalMin(value = "0.01", message = "El precio tiene que ser mayor de 0")
@@ -36,74 +36,81 @@ public class Producto {
         bebida
     }
 
-    @NotNull(message = "La categoria no puede estar vacia")
+    @NotNull(message = "La categoría no puede estar vacía")
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    // Relación con Bar (cada producto pertenece a un bar, no son productos globales)
+    // Relación con Bar (cada producto pertenece a un bar)
     @ManyToOne
     @JoinColumn(name = "bar_id", nullable = false)
     private Bar bar;
 
-    // Constructor 
+    // Relación con Inventario (cada producto pertenece a un inventario)
+    @ManyToOne
+    @JoinColumn(name = "inventario_id")
+    private Inventario inventario;
+
+    // Constructor vacío
     public Producto() {}
 
-    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria, Bar bar) {
+    // Constructor con todos los campos excepto id
+    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria, Bar bar, Inventario inventario) {
         this.nombre = nombre;
         this.precio = precio;
         this.precioCompraUD = precioCompraUD;
         this.precioVentaUD = precioVentaUD;
         this.categoria = categoria;
         this.bar = bar;
+        this.inventario = inventario;
     }
 
     // Getters y setters
-    public int getId() { 
-        return id; 
+    public int getId() {
+        return id;
     }
 
-    public void setId(int id) { 
-        this.id = id; 
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNombre() { 
-        return nombre; 
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombre(String nombre) { 
-        this.nombre = nombre; 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public double getPrecio() { 
-        return precio; 
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setPrecio(double precio) { 
-        this.precio = precio; 
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    public double getPrecioCompraUD() { 
-        return precioCompraUD; 
+    public double getPrecioCompraUD() {
+        return precioCompraUD;
     }
 
-    public void setPrecioCompraUD(double precioCompraUD) { 
-        this.precioCompraUD = precioCompraUD; 
+    public void setPrecioCompraUD(double precioCompraUD) {
+        this.precioCompraUD = precioCompraUD;
     }
 
-    public double getPrecioVentaUD() { 
-        return precioVentaUD; 
+    public double getPrecioVentaUD() {
+        return precioVentaUD;
     }
 
-    public void setPrecioVentaUD(double precioVentaUD) { 
-        this.precioVentaUD = precioVentaUD; 
+    public void setPrecioVentaUD(double precioVentaUD) {
+        this.precioVentaUD = precioVentaUD;
     }
 
-    public Categoria getCategoria() { 
-        return categoria; 
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setCategoria(Categoria categoria) { 
-        this.categoria = categoria; 
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public Bar getBar() {
@@ -112,5 +119,13 @@ public class Producto {
 
     public void setBar(Bar bar) {
         this.bar = bar;
+    }
+
+    public Inventario getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
     }
 }
