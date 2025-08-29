@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.rdfj.mesero.entity.Bar;
+import com.rdfj.mesero.entity.Inventario;
+import com.rdfj.mesero.entity.InventarioProducto;
 import com.rdfj.mesero.entity.Producto;
 import com.rdfj.mesero.entity.Usuario;
 import com.rdfj.mesero.repository.RepositorioProducto;
@@ -38,13 +40,20 @@ public class ServicioProducto {
 
     // Nuevo Producto
     public Producto añadirProducto(Producto producto){
-        Bar bar = getBar();
-        producto.setBar(bar);
-        // Evitar duplicados en el bar
-        if (repositorioProducto.existsByNombreAndBarId(producto.getNombre(), bar.getId())) {
-            throw new RuntimeException("El producto ya existe en este bar");
-        }
-        return repositorioProducto.save(producto);
+        Producto nuevoProducto = new Producto();
+
+        Inventario inventario = getBar().getInventario();
+
+        // Crear el InventarioProducto con cantidad 0
+        InventarioProducto inventarioProducto = new InventarioProducto();
+        inventarioProducto.setInventario(inventario);
+        inventarioProducto.setProducto(nuevoProducto);
+        inventarioProducto.setCantidad(0);
+        inventarioProducto.setUnidadMedida("unidad");
+        inventarioProductoRepository.save(inventarioProducto);
+
+        return nuevoProducto;
+
     }
 
     // Eliminar producto
