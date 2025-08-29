@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rdfj.mesero.entity.Bar;
+import com.rdfj.mesero.entity.Inventario;
 import com.rdfj.mesero.repository.RepositorioBar;
+import com.rdfj.mesero.repository.RepositorioInventario;
 
 @Service
 public class ServicioBar {
@@ -14,9 +16,20 @@ public class ServicioBar {
     @Autowired
     private RepositorioBar repositorioBar;
 
+    @Autowired
+    private RepositorioInventario repositorioInventario;
+
+
     // Crear Bar
     public Bar añadirBar(Bar bar){
-        return repositorioBar.save(bar);
+        
+        Bar barguardado = repositorioBar.save(bar);
+        // Crear un Inventario para el bar automaticamente.
+        Inventario inventario = new Inventario();
+        inventario.setBar(bar);
+        inventario = repositorioInventario.save(inventario);
+
+        return barguardado;
     }
 
     // Eliminar Bar
