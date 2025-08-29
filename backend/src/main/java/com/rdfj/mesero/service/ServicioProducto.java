@@ -11,6 +11,7 @@ import com.rdfj.mesero.entity.Inventario;
 import com.rdfj.mesero.entity.InventarioProducto;
 import com.rdfj.mesero.entity.Producto;
 import com.rdfj.mesero.entity.Usuario;
+import com.rdfj.mesero.repository.RepositorioInventarioProducto;
 import com.rdfj.mesero.repository.RepositorioProducto;
 import com.rdfj.mesero.repository.RepositorioUsuario;
 
@@ -23,7 +24,10 @@ public class ServicioProducto {
     @Autowired 
     private RepositorioUsuario repositorioUsuario;
 
-    // Bar al que pertenece el producto
+    @Autowired
+    private RepositorioInventarioProducto inventarioProductoRepository;
+
+    // Obtener el Bar del usuario autenticado
     private Bar getBar(){
         String emailUsuario = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -32,17 +36,22 @@ public class ServicioProducto {
 
         Bar bar = usuario.getBar();
         if (bar == null) {
-            throw new RuntimeException("El usuario no esta asignado a ningun bar");
+            throw new RuntimeException("El usuario no está asignado a ningún bar");
         }
 
         return bar;
     }
 
-    // Nuevo Producto
+    // Añadir nuevo producto y registrarlo en inventario con cantidad = 0
     public Producto añadirProducto(Producto producto){
-        Producto nuevoProducto = new Producto();
+        Bar bar = getBar();
+        producto.setBar(bar); // asignar el bar al producto
 
-        Inventario inventario = getBar().getInventario();
+        // Guardar primero el producto
+        Producto nuevoProducto = repositorioProducto.save(producto);
+
+        // Obtener el inventario del bar
+        Inventario inventario = bar.getInventario();
 
         // Crear el InventarioProducto con cantidad 0
         InventarioProducto inventarioProducto = new InventarioProducto();
@@ -50,17 +59,18 @@ public class ServicioProducto {
         inventarioProducto.setProducto(nuevoProducto);
         inventarioProducto.setCantidad(0);
         inventarioProducto.setUnidadMedida("unidad");
+
         inventarioProductoRepository.save(inventarioProducto);
 
         return nuevoProducto;
-
     }
 
     // Eliminar producto
     public void eliminarProducto(Integer id){
         Bar bar = getBar();
         Producto producto = repositorioProducto.findById(id)
-            .orElseThrow(()-> new RuntimeException("El producto no existe"));
+            .orElseThrow(() -> new RuntimeException("El producto no existe"));
+
         if (!producto.getBar().equals(bar)) {
             throw new RuntimeException("No puedes eliminar productos de otro bar");
         }
@@ -68,6 +78,7 @@ public class ServicioProducto {
         repositorioProducto.delete(producto);
     }
 
+    // Buscar producto por id en el bar del usuario
     public Producto buscarPorId(Integer id) {
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Bar bar = usuario.getBar();
@@ -75,11 +86,9 @@ public class ServicioProducto {
         return repositorioProducto.findByIdAndBar(id, bar).orElse(null);
     }
 
-    // Vet todos los productos
+    // Ver todos los productos de un bar
     public List<Producto> verProductos(){
         Bar bar = getBar();
         return repositorioProducto.findAllByBarId(bar.getId());
     }
-
-
 }
