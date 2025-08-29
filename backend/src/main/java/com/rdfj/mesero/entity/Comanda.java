@@ -56,11 +56,12 @@ public class Comanda {
 
     }
 
-    public Comanda(Mesa mesa, Date fechaInicio, Estado estado, double total) {
+    public Comanda(Mesa mesa, Date fechaInicio, Estado estado, double total, Bar bar) {
         this.mesa = mesa;
         this.fechaInicio = fechaInicio;
         this.estado = estado;
         this.total = total;
+        this.bar = bar;
     }
 
     // Getters y setters
@@ -119,6 +120,14 @@ public class Comanda {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public Bar getBar(){
+        return bar;
+    }
+
+    public void setBar(Bar bar){
+        this.bar = bar;
     }
 
     public double calcularTotal(){
