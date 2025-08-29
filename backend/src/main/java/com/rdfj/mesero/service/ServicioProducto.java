@@ -45,7 +45,7 @@ public class ServicioProducto {
     // Añadir nuevo producto y registrarlo en inventario con cantidad = 0
     public Producto añadirProducto(Producto producto){
         Bar bar = getBar();
-        producto.setBar(bar); // asignar el bar al producto
+        producto.setBar(bar); 
 
         // Guardar primero el producto
         Producto nuevoProducto = repositorioProducto.save(producto);
@@ -53,19 +53,19 @@ public class ServicioProducto {
         // Obtener el inventario del bar
         Inventario inventario = bar.getInventario();
 
-        // Crear el InventarioProducto con cantidad 0
+        // Crear el InventarioProducto con cantidad inicial 0
         InventarioProducto inventarioProducto = new InventarioProducto();
         inventarioProducto.setInventario(inventario);
         inventarioProducto.setProducto(nuevoProducto);
         inventarioProducto.setCantidad(0);
-        inventarioProducto.setUnidadMedida("unidad");
+        inventarioProducto.setUnidadMedida("unidad"); 
 
         inventarioProductoRepository.save(inventarioProducto);
 
         return nuevoProducto;
     }
 
-    // Eliminar producto
+    // Eliminar producto y su entrada en inventario
     public void eliminarProducto(Integer id){
         Bar bar = getBar();
         Producto producto = repositorioProducto.findById(id)
@@ -74,21 +74,56 @@ public class ServicioProducto {
         if (!producto.getBar().equals(bar)) {
             throw new RuntimeException("No puedes eliminar productos de otro bar");
         }
-        
+
+        // Eliminar del inventario si existe
+        InventarioProducto invProd = inventarioProductoRepository
+                .findByInventarioAndProducto(bar.getInventario(), producto)
+                .orElse(null);
+        if (invProd != null) {
+            inventarioProductoRepository.delete(invProd);
+        }
+
+        // Eliminar producto
         repositorioProducto.delete(producto);
     }
 
     // Buscar producto por id en el bar del usuario
     public Producto buscarPorId(Integer id) {
-        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Bar bar = usuario.getBar();
-
+        Bar bar = getBar();
         return repositorioProducto.findByIdAndBar(id, bar).orElse(null);
+    }
+
+    // Editar datos de un producto y opcionalmente su cantidad inicial
+    public Producto editarProducto(Integer id, String nuevoNombre, String nuevaUnidad, Integer nuevaCantidad) {
+        Bar bar = getBar();
+        Producto producto = repositorioProducto.findByIdAndBar(id, bar)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        if (nuevoNombre != null) producto.setNombre(nuevoNombre);
+
+        // Actualizar InventarioProducto
+        InventarioProducto invProd = inventarioProductoRepository
+                .findByInventarioAndProducto(bar.getInventario(), producto)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado en inventario"));
+
+        if (nuevaUnidad != null) invProd.setUnidadMedida(nuevaUnidad);
+        if (nuevaCantidad != null) invProd.setCantidad(nuevaCantidad);
+
+        repositorioProducto.save(producto);
+        inventarioProductoRepository.save(invProd);
+
+        return producto;
     }
 
     // Ver todos los productos de un bar
     public List<Producto> verProductos(){
         Bar bar = getBar();
         return repositorioProducto.findAllByBarId(bar.getId());
+    }
+
+    // Ver inventario completo del bar
+    public List<InventarioProducto> verInventario() {
+        Bar bar = getBar();
+        return inventarioProductoRepository.findByInventario(bar.getInventario());
     }
 }

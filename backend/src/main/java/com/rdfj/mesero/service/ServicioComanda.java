@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.rdfj.mesero.entity.Comanda;
 import com.rdfj.mesero.entity.DetalleComanda;
 import com.rdfj.mesero.repository.RepositorioComanda;
-import com.rdfj.mesero.repository.RepositorioDetalleComanda;
 
 @Service
 public class ServicioComanda {
@@ -18,15 +17,15 @@ public class ServicioComanda {
     private RepositorioComanda repositorioComanda;
 
     @Autowired
-    private RepositorioDetalleComanda repositorioDetalleComanda;
+    private ServicioDetalleComanda servicioDetalleComanda;
 
-    // Añadir comanda
+    // Añadir comanda nueva
     public Comanda añadirComanda(Comanda comanda){
-        comanda.setTotal(0.0);
+        comanda.setTotal(0.0); // inicializamos total en 0
         return repositorioComanda.save(comanda);
     }
 
-    // Añadir linea comanda (Detalle comanda; lo que se va pidiendo)
+    // Añadir detalle a una comanda existente
     public Comanda añadirDetalle(Integer idComanda, DetalleComanda detalleComanda){
         Comanda comanda = repositorioComanda.findById(idComanda)
                 .orElseThrow(() -> new RuntimeException("Comanda no encontrada"));
@@ -34,19 +33,16 @@ public class ServicioComanda {
         // Vinculamos el detalle comanda a la comanda
         detalleComanda.setComanda(comanda);
 
-        // Guardamos el nuevo detalle comanda / pedido
-        repositorioDetalleComanda.save(detalleComanda);
+        // Guardamos detalle y actualizamos inventario automáticamente
+        servicioDetalleComanda.añadirDetalleComanda(detalleComanda);
 
-        // Calculamos el nuevo total
-        double total = comanda.getDetalles().stream()
-            .mapToDouble(DetalleComanda::getSubtotal)
-            .sum();
-        comanda.setTotal(total);
+        // Recalculamos total de la comanda
+        comanda.setTotal(comanda.calcularTotal());
+
         return repositorioComanda.save(comanda);
-
     }
 
-    // Eliminar Comanda
+    // Eliminar comanda
     public void eliminarComanda(Integer id){
         repositorioComanda.deleteById(id);
     }
@@ -56,7 +52,7 @@ public class ServicioComanda {
         return repositorioComanda.findAll();
     }
 
-    // Mostrar las comandas de fecha inicio
+    // Mostrar las comandas de una fecha concreta
     public List<Comanda> buscarComanda(Date fecha){
         return repositorioComanda.findByFechaInicio(fecha);
     }

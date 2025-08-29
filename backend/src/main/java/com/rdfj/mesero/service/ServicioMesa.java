@@ -16,6 +16,9 @@ public class ServicioMesa {
 
     // Añadir mesa
     public Mesa añadirMesa(Mesa mesa){
+        if (existsByNumeroMesa(mesa.getNumeroMesa())) {
+            throw new RuntimeException("Ya existe una mesa con este número");
+        }
         return repositorioMesa.save(mesa);
     }
 
@@ -30,7 +33,7 @@ public class ServicioMesa {
     }
 
     // Comprobar existencia
-    public boolean existsByNombre(Integer numeroMesa){
+    public boolean existsByNumeroMesa(Integer numeroMesa){
         return repositorioMesa.existsByNumeroMesa(numeroMesa);
     }
 

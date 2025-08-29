@@ -26,7 +26,7 @@ public class ServicioBar {
         Bar barguardado = repositorioBar.save(bar);
         // Crear un Inventario para el bar automaticamente.
         Inventario inventario = new Inventario();
-        inventario.setBar(bar);
+        inventario.setBar(barguardado);
         inventario = repositorioInventario.save(inventario);
 
         return barguardado;
