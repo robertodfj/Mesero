@@ -32,9 +32,9 @@ public class Usuario {
 
     
     public enum Rol{
-        Camarero,
-        Cocina,
-        Encargado
+        CAMARERO,
+        COCINA,
+        ENCARGADO
     };
 
     @NotNull(message = "El rol no puede estar vacio")
