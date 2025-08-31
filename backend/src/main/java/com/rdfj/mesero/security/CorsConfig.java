@@ -1,6 +1,5 @@
 package com.rdfj.mesero.security;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -16,8 +15,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173") // Cambiar puerto
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedOriginPatterns(new String[] { "http://localhost:5173" })
                     .allowedHeaders("*")
                     .allowCredentials(true);
             }
