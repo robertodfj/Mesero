@@ -7,5 +7,5 @@ import com.rdfj.mesero.entity.VerificationToken;
 
 
 public interface RepositorioVerificationToken extends JpaRepository<VerificationToken, Long> {
-    Optional<VerificationToken> finByToken(String token);
+    Optional<VerificationToken> findByToken(String token);
 } 
