@@ -45,18 +45,23 @@ public class Usuario {
     @JoinColumn(name = "bar_id", nullable = false)
     private Bar bar;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean enabled = false;  
+
         
     // Constructor
     public Usuario(){
 
     }
 
-    public Usuario(int id, String nombre, String email, String password, Rol rol){
+    public Usuario(int id, String nombre, String email, String password, Rol rol, Boolean enabled){
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.rol = rol;
+        this.enabled = enabled;
     }
     
     // Getters y setters
@@ -106,6 +111,14 @@ public class Usuario {
 
     public void setBar(Bar bar) {
         this.bar = bar;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
 }
