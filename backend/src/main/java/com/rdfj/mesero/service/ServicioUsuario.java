@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.rdfj.mesero.dto.RegistrarUsuarioDTO;
 import com.rdfj.mesero.entity.Bar;
 import com.rdfj.mesero.entity.Usuario;
+import com.rdfj.mesero.entity.Usuario.Rol;
 import com.rdfj.mesero.repository.RepositorioBar;
 import com.rdfj.mesero.repository.RepositorioUsuario;
 
@@ -39,7 +40,12 @@ public class ServicioUsuario {
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         usuario.setEmail(dto.getEmail());
         usuario.setBar(bar);
-        usuario.setRol(dto.getRol());
+        
+        try {
+            usuario.setRol(Rol.valueOf(dto.getRol().toUpperCase())); // Convertir String a Enum
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Rol inválido: " + dto.getRol());
+        }
 
         return repositorioUsuario.save(usuario);
     }
