@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.rdfj.mesero.entity.Bar;
 import com.rdfj.mesero.entity.Inventario;
+import com.rdfj.mesero.entity.Usuario;
 import com.rdfj.mesero.repository.RepositorioBar;
 import com.rdfj.mesero.repository.RepositorioInventario;
+import com.rdfj.mesero.repository.RepositorioUsuario;
 
 @Service
 public class ServicioBar {
@@ -18,6 +20,9 @@ public class ServicioBar {
 
     @Autowired
     private RepositorioInventario repositorioInventario;
+
+    @Autowired
+    private RepositorioUsuario repositorioUsuario;
 
 
     // Crear Bar
@@ -43,6 +48,14 @@ public class ServicioBar {
     public Optional<Bar> buscarID(Integer id){
         return repositorioBar.findById(id);
     }
+
+    // Obtener bar del usuario autenticado por email
+    public Bar obtenerBarPorEmailUsuario(String email) {
+        Usuario usuario = repositorioUsuario.findByEmail(email)
+                        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return usuario.getBar(); // devuelve el bar asociado al usuario
+    }
+    
 
     // Buscar por nombre
     public Optional<Bar> buscarNombre(String nombre){
