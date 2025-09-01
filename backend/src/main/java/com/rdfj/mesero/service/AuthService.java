@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rdfj.mesero.entity.Bar;
 import com.rdfj.mesero.entity.Usuario;
@@ -21,6 +22,7 @@ import com.rdfj.mesero.security.JwtUtil;
 
 @Service
 public class AuthService {
+
     @Autowired
     private RepositorioUsuario repositorioUsuario;
 
@@ -39,20 +41,23 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Registrar usuarios
-    public void registro(String nombre, String email, String password, String rol, String nombreBar){
+    /**
+     * Registro de usuario con token de verificación
+     */
+    @Transactional
+    public String registro(String nombre, String email, String password, String rol, Integer idBar) {
         if (repositorioUsuario.findByEmail(email).isPresent()) {
-            throw new RuntimeException("El email indicado ya está registrado");
+            throw new IllegalArgumentException("El email indicado ya está registrado");
         }
 
-        Bar bar = repositorioBar.findByNombre(nombreBar)
-            .orElseThrow(() -> new RuntimeException("El bar indicado no existe"));
+        Bar bar = repositorioBar.findById(idBar)
+            .orElseThrow(() -> new IllegalArgumentException("El bar indicado no existe"));
 
         Rol rolEnum;
         try {
             rolEnum = Rol.valueOf(rol.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Rol inválido: " + rol);
+            throw new IllegalArgumentException("Rol inválido: " + rol);
         }
 
         Usuario nuevoUsuario = new Usuario();
@@ -74,32 +79,40 @@ public class AuthService {
 
         repositorioVerificationToken.save(verificationToken);
 
-        System.out.println("Token de verificación = " + token);
+        // TODO: Enviar correo electronico con el token, de momento se imprime en consola
+        System.out.println(token);
+        return token;
     }
 
-    // Verificar token
-    public void verificarToken(String token){
+    /**
+     * Verifica un token de activación y habilita el usuario
+     */
+    @Transactional
+    public void verificarToken(String token) {
         VerificationToken verificationToken = repositorioVerificationToken.findByToken(token)
-            .orElseThrow(() -> new RuntimeException("El token es inválido"));
+            .orElseThrow(() -> new IllegalArgumentException("El token es inválido"));
 
         if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("El token ha expirado");
+            throw new IllegalArgumentException("El token ha expirado");
         }
 
         Usuario usuario = verificationToken.getUsuario();
         usuario.setEnabled(true);
         repositorioUsuario.save(usuario);
 
+        // Eliminamos el token usado
         repositorioVerificationToken.delete(verificationToken);
     }
 
-    // Login
-    public String login(String email, String password){
+    /**
+     * Login de usuario con generación de JWT
+     */
+    public String login(String email, String password) {
         Usuario usuario = repositorioUsuario.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("El email no está registrado"));
+            .orElseThrow(() -> new IllegalArgumentException("El email no está registrado"));
 
         if (!usuario.isEnabled()) {
-            throw new RuntimeException("Debes verificar tu email para acceder");
+            throw new IllegalStateException("Debes verificar tu email para acceder");
         }
 
         Authentication authentication = authenticationManager.authenticate(
@@ -109,7 +122,7 @@ public class AuthService {
         if (authentication.isAuthenticated()) {
             return jwtUtil.generateToken(email);
         } else {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new IllegalArgumentException("Credenciales inválidas");
         }
     }
 }

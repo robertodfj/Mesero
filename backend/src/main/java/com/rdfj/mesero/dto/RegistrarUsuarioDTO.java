@@ -1,7 +1,5 @@
 package com.rdfj.mesero.dto;
 
-import com.rdfj.mesero.entity.Usuario.Rol;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +16,7 @@ public class RegistrarUsuarioDTO {
     private String email;
     
     @NotNull(message = "El rol no puede estar vacío")
-    private Rol rol;
+    private String rol;
 
     @NotNull(message = "El bar no puede estar vacío")
     @Min(value = 1, message = "El barId debe ser mayor que 0")
@@ -27,7 +25,7 @@ public class RegistrarUsuarioDTO {
     // Constructores
     public RegistrarUsuarioDTO() {}
 
-    public RegistrarUsuarioDTO(String nombre, String password, String email, Rol rol, Integer barId) {
+    public RegistrarUsuarioDTO(String nombre, String password, String email, String rol, Integer barId) {
         this.nombre = nombre;
         this.password = password;
         this.email = email;
@@ -60,11 +58,11 @@ public class RegistrarUsuarioDTO {
         this.email = email;
     }
 
-    public Rol getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(Rol rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
 
