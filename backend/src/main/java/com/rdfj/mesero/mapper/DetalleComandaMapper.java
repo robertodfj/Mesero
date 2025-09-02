@@ -1,9 +1,7 @@
 package com.rdfj.mesero.mapper;
 
 import com.rdfj.mesero.dto.DetalleComandaDTO;
-import com.rdfj.mesero.dto.ProductoDTO;
 import com.rdfj.mesero.entity.DetalleComanda;
-import com.rdfj.mesero.entity.Producto;
 
 public class DetalleComandaMapper {
 
@@ -17,7 +15,7 @@ public class DetalleComandaMapper {
         dto.setCantidad(entity.getCantidad());
         dto.setObservaciones(entity.getObservaciones());
         dto.setPrecio(entity.getPrecio());
-        dto.setProducto(productoToDTO(entity.getProducto()));
+        dto.setProducto(ProductoMapper.productoToDTO(entity.getProducto()));
         return dto;
     }
 
@@ -32,32 +30,7 @@ public class DetalleComandaMapper {
         entity.setCantidad(dto.getCantidad());
         entity.setObservaciones(dto.getObservaciones());
         entity.setPrecio(dto.getPrecio());
-        entity.setProducto(productoDTOToProducto(dto.getProducto()));
+        entity.setProducto(ProductoMapper.dtoToProducto(dto.getProducto()));
         return entity;
-    }
-
-    // Mappers para Producto (puedes tenerlos en ProductoMapper si prefieres)
-    public static ProductoDTO productoToDTO(Producto producto) {
-        if (producto == null) {
-            return null;
-        }
-        ProductoDTO dto = new ProductoDTO();
-        dto.setId(producto.getId());
-        dto.setNombre(producto.getNombre());
-        dto.setPrecio(producto.getPrecio());
-        dto.setCategoria(producto.getCategoria());
-        return dto;
-    }
-
-    public static Producto productoDTOToProducto(ProductoDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-        Producto producto = new Producto();
-        producto.setId(dto.getId());
-        producto.setNombre(dto.getNombre());
-        producto.setPrecio(dto.getPrecio());
-        producto.setCategoria(dto.getCategoria());
-        return producto;
     }
 }

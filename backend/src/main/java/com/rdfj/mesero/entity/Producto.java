@@ -22,9 +22,6 @@ public class Producto {
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
 
-    @DecimalMin(value = "0.01", message = "El precio tiene que ser mayor de 0")
-    private double precio;
-
     @DecimalMin(value = "0.01", message = "El precio de compra tiene que ser mayor de 0")
     private double precioCompraUD;
 
@@ -54,9 +51,8 @@ public class Producto {
     public Producto() {}
 
     // Constructor con todos los campos excepto id
-    public Producto(String nombre, double precio, double precioCompraUD, double precioVentaUD, Categoria categoria, Bar bar, Inventario inventario) {
+    public Producto(String nombre, double precioCompraUD, double precioVentaUD, Categoria categoria, Bar bar, Inventario inventario) {
         this.nombre = nombre;
-        this.precio = precio;
         this.precioCompraUD = precioCompraUD;
         this.precioVentaUD = precioVentaUD;
         this.categoria = categoria;
@@ -81,13 +77,6 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
 
     public double getPrecioCompraUD() {
         return precioCompraUD;

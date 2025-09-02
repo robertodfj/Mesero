@@ -93,26 +93,24 @@ public class ServicioProducto {
         return repositorioProducto.findByIdAndBar(id, bar).orElse(null);
     }
 
-    // Editar datos de un producto y opcionalmente su cantidad inicial
-    public Producto editarProducto(Integer id, String nuevoNombre, String nuevaUnidad, Integer nuevaCantidad) {
+    // Editar datos de un producto 
+    public Producto editarProducto(
+        Integer id,
+        String nuevoNombre,
+        Double nuevoPrecioCompraUD,
+        Double nuevoPrecioVentaUD,
+        Producto.Categoria nuevaCategoria) {
+
         Bar bar = getBar();
         Producto producto = repositorioProducto.findByIdAndBar(id, bar)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
         if (nuevoNombre != null) producto.setNombre(nuevoNombre);
+        if (nuevoPrecioCompraUD != null) producto.setPrecioCompraUD(nuevoPrecioCompraUD);
+        if (nuevoPrecioVentaUD != null) producto.setPrecioVentaUD(nuevoPrecioVentaUD);
+        if (nuevaCategoria != null) producto.setCategoria(nuevaCategoria);
 
-        // Actualizar InventarioProducto
-        InventarioProducto invProd = inventarioProductoRepository
-                .findByInventarioAndProducto(bar.getInventario(), producto)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado en inventario"));
-
-        if (nuevaUnidad != null) invProd.setUnidadMedida(nuevaUnidad);
-        if (nuevaCantidad != null) invProd.setCantidad(nuevaCantidad);
-
-        repositorioProducto.save(producto);
-        inventarioProductoRepository.save(invProd);
-
-        return producto;
+        return repositorioProducto.save(producto);
     }
 
     // Ver todos los productos de un bar
