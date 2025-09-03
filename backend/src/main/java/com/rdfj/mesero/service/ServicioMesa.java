@@ -23,8 +23,10 @@ public class ServicioMesa {
     }
 
     // Eliminar mesa
-    public void eliminarMesa(Integer id){
-        repositorioMesa.deleteById(id);
+    public void eliminarPorNumeroMesa(int numMesa) {
+    Mesa mesa = repositorioMesa.findByNumeroMesa(numMesa)
+                    .orElseThrow(() -> new RuntimeException("Mesa no encontrada"));
+        repositorioMesa.delete(mesa);
     }
 
     // Ver todas las mesas
