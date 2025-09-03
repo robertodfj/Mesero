@@ -42,6 +42,8 @@ public class ServicioComanda {
         return repositorioComanda.save(comanda);
     }
 
+    // Cerrar comanda
+
     // Eliminar comanda
     public void eliminarComanda(Integer id){
         repositorioComanda.deleteById(id);
