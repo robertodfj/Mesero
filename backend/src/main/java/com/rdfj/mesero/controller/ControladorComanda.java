@@ -70,6 +70,15 @@ public class ControladorComanda {
         }
     }
 
-    // Cerrar comanda
+    // Cerrar una comanda (calcula el total y cambia estado)
+    @PostMapping("/{id}/cerrar")
+    public ResponseEntity<?> cerrar(@PathVariable int id) {
+        try {
+            Comanda cerrada = servicioComanda.cerrarComanda(id);
+            return ResponseEntity.ok("Comanda cerrada correctamente. Total: " + cerrada.getTotal());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al cerrar comanda: " + e.getMessage());
+        }
+    }
 
 }

@@ -42,7 +42,28 @@ public class ServicioComanda {
         return repositorioComanda.save(comanda);
     }
 
-    // Cerrar comanda
+    // Cerrar una comanda
+    public Comanda cerrarComanda(Integer id) {
+        Comanda comanda = repositorioComanda.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comanda no encontrada"));
+
+        if (comanda.getEstado() == Comanda.Estado.cerrada) {
+            throw new RuntimeException("La comanda ya está cerrada");
+        }
+
+        if (comanda.getEstado() == Comanda.Estado.cancelada) {
+            throw new RuntimeException("No se puede cerrar una comanda cancelada");
+        }
+
+        // recalculamos el total
+        comanda.setTotal(comanda.calcularTotal());
+        // marcamos fecha de fin
+        comanda.setFechaFin(new java.sql.Date(System.currentTimeMillis()));
+        // cambiamos el estado
+        comanda.setEstado(Comanda.Estado.cerrada);
+
+        return repositorioComanda.save(comanda);
+    }
 
     // Eliminar comanda
     public void eliminarComanda(Integer id){
