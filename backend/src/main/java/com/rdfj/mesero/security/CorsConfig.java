@@ -12,10 +12,11 @@ public class CorsConfig {
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             
+            @SuppressWarnings("null")
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOriginPatterns(new String[] { "http://localhost:5173" })
+                    .allowedOriginPatterns("http://localhost:5173")
                     .allowedMethods("*")
                     .allowedHeaders("*")
                     .allowCredentials(true);
