@@ -1,37 +1,38 @@
 package com.rdfj.mesero.security;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.rdfj.mesero.entity.Usuario;
 
+import java.util.Collection;
+import java.util.Collections;
+
 public class CustomUserDetails implements UserDetails {
     
     private final Usuario usuario;
 
-    public CustomUserDetails(Usuario usuario){
+    public CustomUserDetails(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    // Implementación de los métodos de UserDetails (Obligatorios al extender de UserDetails)
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
     }
 
-    // Metodos obligatorios de user details
-   @Override
-   public String getPassword(){
+    @Override
+    public String getPassword() {
         return usuario.getPassword();
-   }
+    }
 
-   @Override
-   public String getUsername(){
+    @Override
+    public String getUsername() {
         return usuario.getEmail();
-   }
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -50,10 +51,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return usuario.isEnabled();
-    }
-
-    public Usuario getUsuario(){
-        return usuario;
+        return true;
     }
 }
+
+

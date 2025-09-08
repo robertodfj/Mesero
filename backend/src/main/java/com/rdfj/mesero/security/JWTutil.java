@@ -21,7 +21,7 @@ public class JwtUtil {
     private String secret;
 
     // Tiempo de expiración (en milisegundos)
-    @Value("${jwt.expiration.time}")
+    @Value("${jwt.expiration}")
     private Long expirationTime;
 
     // Generar Token 
