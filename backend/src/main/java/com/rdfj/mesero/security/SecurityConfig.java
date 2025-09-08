@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // deshabilitamos CSRF
                 .cors(cors -> {}) // habilitamos CORS (por defecto)
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/register", "/auth/login").permitAll() // login y registro públicos
+                    .requestMatchers("/auth/**", "/bar/crear").permitAll() // autenticacion publica
                     .anyRequest().authenticated() // el resto requiere autenticación
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // añadimos nuestro filtro JWT

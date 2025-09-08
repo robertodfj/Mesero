@@ -68,7 +68,7 @@ public class AuthService {
         nuevoUsuario.setRol(rolEnum);
         nuevoUsuario.setEnabled(false);
 
-        repositorioUsuario.save(nuevoUsuario);
+        repositorioUsuario.saveAndFlush(nuevoUsuario);
 
         // Generar token de verificación
         String token = UUID.randomUUID().toString();
@@ -98,7 +98,7 @@ public class AuthService {
 
         Usuario usuario = verificationToken.getUsuario();
         usuario.setEnabled(true);
-        repositorioUsuario.save(usuario);
+        repositorioUsuario.saveAndFlush(usuario);
 
         // Eliminamos el token usado
         repositorioVerificationToken.delete(verificationToken);

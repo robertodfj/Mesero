@@ -20,7 +20,7 @@ public class AuthController {
 
     // Registro de usuarios
     @PostMapping("/register")
-    public ResponseEntity<?> registrar(RegistrarUsuarioDTO dto){
+    public ResponseEntity<?> registrar(@RequestBody RegistrarUsuarioDTO dto){
         try {
             authService.registro(
                 dto.getNombre(), 
