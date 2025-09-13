@@ -47,7 +47,7 @@ public class AuthController {
     }
     // Login
     @PostMapping("/login")
-    public ResponseEntity<?> login(LoginDTO dto){
+    public ResponseEntity<?> login(@RequestBody LoginDTO dto){
         try {
             String JWT = authService.login(dto.getEmail(), dto.getPassword());
 
