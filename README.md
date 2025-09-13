@@ -1,49 +1,32 @@
-# Mesero
+Mesero 🗂️
 
-**Mesero** es una aplicación backend desarrollada en Java con Spring Boot, diseñada para la gestión eficiente de pedidos en restaurantes y bares. Permite la toma de órdenes, autenticación de usuarios, gestión de roles y comunicación segura mediante JWT.
+Mesero es una aplicación backend tipo gestor de tareas/pedidos para restaurantes y bares. Permite a usuarios autenticados crear, visualizar y gestionar tareas/pedidos, con un panel de administración exclusivo para usuarios con rol ADMIN.
 
----
+✨ Características
+	•	Registro y login con autenticación JWT
+	•	Roles de usuario (USER y ADMIN)
+	•	Crear, listar y eliminar tareas/pedidos
+	•	Panel de administración para ver todas las tareas
+	•	Integración con MySQL como base de datos
+	•	Validación de datos con Spring Validation
 
-## Tabla de Contenidos
+🚀 Tecnologías
 
-- [Características](#características)
-- [Tecnologías](#tecnologías)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Requisitos](#requisitos)
-- [Instalación](#instalación)
-- [Configuración de Base de Datos](#configuración-de-base-de-datos)
-- [Uso](#uso)
-- [Endpoints Principales](#endpoints-principales)
-- [Contribuciones](#contribuciones)
-- [Licencia](#licencia)
+Backend
+	•	Java 17
+	•	Spring Boot 3.5.4
+	•	Spring Security + JWT
+	•	JPA + Hibernate
+	•	MySQL
+	•	Lombok
 
----
+Frontend (opcional)
+	•	React
+	•	Tailwind CSS
+	•	React Router
 
-## Características
+🔧 Estructura del Proyecto
 
-- Gestión de pedidos de clientes.
-- Autenticación y autorización mediante JWT.
-- Gestión de usuarios con roles (`USER`, `ADMIN`).
-- Validación de datos usando Spring Validation.
-- Integración con MySQL como base de datos persistente.
-- Fácil despliegue y configuración mediante `application.properties`.
-
----
-
-## Tecnologías
-
-- **Backend:** Java 17, Spring Boot 3.5.4  
-- **Seguridad:** Spring Security, JWT  
-- **Base de datos:** MySQL 8.0  
-- **ORM:** Spring Data JPA  
-- **Dependencias adicionales:**
-  - Lombok
-  - JJWT (Java JWT)
-  - Spring Boot Starter Validation
-
----
-
-## Estructura del Proyecto
 Mesero/
 ├─ src/main/java/com/rdfj/mesero/
 │  ├─ controller/         # Endpoints REST
@@ -56,26 +39,18 @@ Mesero/
 │  └─ data.sql            # Datos iniciales (opcional)
 └─ pom.xml
 
----
+🔐 Usuario de prueba (Demo)
 
-## Requisitos
+Puedes acceder con:
 
-- JDK 17 o superior
-- Maven 3.8.6 o superior
-- MySQL 8.0 o superior
+Email: demo@example.com
+Contraseña: demo1234
 
----
+📦 Instalación y ejecución
 
-## Instalación
-
-1. Clona el repositorio:
-
-```bash
-git clone https://github.com/robertodfj/Mesero.git
-cd Mesero
-
-
-2. Configura la base de datos en src/main/resources/application.properties:
+Backend
+	1.	Clona el repositorio
+	2.	Configura la base de datos en application.properties:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/mesero_db
 spring.datasource.username=tu_usuario
@@ -87,42 +62,34 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 jwt.secret=una_clave_segura_y_larga_min32
 jwt.expiration=3600000
 
-3.	Compila e inicia la aplicación:
-mvn clean install
-mvn spring-boot:run
+	3.	Ejecuta la aplicación con tu IDE o mvn spring-boot:run
 
-4.	La aplicación estará disponible en http://localhost:8080.
+Frontend (opcional)
+	1.	Ve al directorio del frontend
+	2.	Instala las dependencias:
 
+npm install
 
-Endpoints Principales
-Método
-Endpoint
-Descripción
-Roles Permitidos
-POST
-/login
-Autenticación y obtención de token
-PUBLIC
-POST
-/tareas/crear
-Crear una tarea
-USER, ADMIN
-GET
-/tareas/mostrar
-Mostrar tareas del usuario
-USER, ADMIN
-GET
-/tareas/mostrar-todas
-Mostrar todas las tareas
-ADMIN
-GET
-/tareas/{id}
-Obtener tarea por ID
-ADMIN
-DELETE
-/tareas/{id}
-Eliminar tarea por ID
+	3.	Ejecuta la aplicación:
 
-Licencia
+npm run dev
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+📌 Endpoints principales
+
+Método	Endpoint	Descripción	Roles Permitidos
+POST	/login	Autenticación y obtención de token	PUBLIC
+POST	/tareas/crear	Crear una tarea	USER, ADMIN
+GET	/tareas/mostrar	Mostrar tareas del usuario	USER, ADMIN
+GET	/tareas/mostrar-todas	Mostrar todas las tareas	ADMIN
+GET	/tareas/{id}	Obtener tarea por ID	ADMIN
+DELETE	/tareas/{id}	Eliminar tarea por ID	ADMIN
+
+🛠️ Notas de desarrollo
+	•	La aplicación crea automáticamente el usuario demo si no existe.
+	•	JWT se almacena en localStorage para mantener la sesión.
+	•	Puedes eliminar y reiniciar la base de datos manualmente desde tu cliente MySQL.
+	•	Asegúrate de usar un jwt.secret con mínimo 32 caracteres para que HS256 funcione correctamente.
+
+📄 Licencia
+
+Proyecto con fines educativos - Roberto Frutos Jiménez
