@@ -45,6 +45,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Error al verificar token: " +e.getMessage());
         }
     }
+    // Verificar email (Reenvio de token)
+    @PostMapping("/reenvioverificacion")
+    public ResponseEntity<?> reVerfificar(@RequestBody String email){
+        try {
+            authService.generarNuevoToken(email);
+            return ResponseEntity.ok().body("Email verificado correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al verificar el token: " +e.getMessage());
+        }
+    }
+
     // Login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO dto){

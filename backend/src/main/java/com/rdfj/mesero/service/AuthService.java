@@ -105,6 +105,35 @@ public class AuthService {
     }
 
     /**
+     * Reenvio del token de verificacion
+     */
+
+    @Transactional
+    public String generarNuevoToken(String email){
+        Usuario usuario = repositorioUsuario.findByEmail(email)
+            .orElseThrow(()-> new RuntimeException("No existe usuario con ese email"));
+
+        if (usuario.isEnabled()) {
+            throw new RuntimeException("El usuario ya esta verificado");
+        }
+
+        // Eliminar antiguos token
+        repositorioVerificationToken.deleteAllbyUsuario(usuario);
+
+        // Generar token de verificación
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+        verificationToken.setUsuario(usuario);
+        verificationToken.setExpiryDate(LocalDateTime.now().plusMinutes(30));
+
+        repositorioVerificationToken.save(verificationToken);
+
+        // TODO: Enviar correo electronico con el token, de momento se imprime en consola
+        System.out.println(token);
+        return token;
+    }
+    /**
      * Login de usuario con generación de JWT
      */
     public String login(String email, String password) {
