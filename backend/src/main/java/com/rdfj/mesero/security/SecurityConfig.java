@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    private JwtFilter jwtFilter; // 👈 Asegúrate de tener un filtro JWT implementado
+    private JwtFilter jwtFilter; 
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,8 +28,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // deshabilitamos CSRF
                 .cors(cors -> {}) // habilitamos CORS (por defecto)
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**", "/bar/crear").permitAll() // autenticacion publica
-                    .anyRequest().authenticated() // el resto requiere autenticación
+                    //Permitimos todo para primeras pruebas
+                    .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // añadimos nuestro filtro JWT
                 .build();
