@@ -2,6 +2,9 @@ package com.rdfj.mesero.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
 
 import com.rdfj.mesero.dto.BarDTO;
 import com.rdfj.mesero.dto.MesaDTO;
@@ -23,21 +26,23 @@ public class BarMapper {
         dto.setNombre(bar.getNombre());
         dto.setTelefono(bar.getTelefono());
 
-        if (bar.getMesas() != null) {
-            List<MesaDTO> mesasDTO = bar.getMesas()
-                .stream()
-                .map(MesaMapper::mesaToDTO)
-                .collect(Collectors.toList());
-            dto.setMesas(mesasDTO);
-        }
+        // Mesas
+        List<MesaDTO> mesasDTO = Optional.ofNullable(bar.getMesas())
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(MesaMapper::mesaToDTO)
+            .collect(Collectors.toList());
+        dto.setMesas(mesasDTO);
 
-        if (bar.getUsuarios() != null) {
-            List<UsuarioDTO> usuariosDTO = bar.getUsuarios()
-                .stream()
-                .map(UsuarioMapper::usuarioToDTO)
-                .collect(Collectors.toList());
-            dto.setUsuarios(usuariosDTO);
-        }
+        // Usuarios
+        List<UsuarioDTO> usuariosDTO = Optional.ofNullable(bar.getUsuarios())
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(UsuarioMapper::usuarioToDTOSimple) // Solo info básica para evitar ciclos
+            .collect(Collectors.toList());
+        dto.setUsuarios(usuariosDTO);
 
         return dto;
     }
@@ -53,21 +58,23 @@ public class BarMapper {
         bar.setNombre(dto.getNombre());
         bar.setTelefono(dto.getTelefono());
 
-        if (dto.getMesas() != null) {
-            List<Mesa> mesas = dto.getMesas()
-                .stream()
-                .map(MesaMapper::dtoToMesa)
-                .collect(Collectors.toList());
-            bar.setMesas(mesas); 
-        }
+        // Mesas
+        List<Mesa> mesas = Optional.ofNullable(dto.getMesas())
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(MesaMapper::dtoToMesa)
+            .collect(Collectors.toList());
+        bar.setMesas(mesas);
 
-        if (dto.getUsuarios() != null) {
-            List<Usuario> usuarios = dto.getUsuarios()
-                .stream()
-                .map(UsuarioMapper::dtoToUsuario)
-                .collect(Collectors.toList());
-            bar.setUsuarios(usuarios); 
-        }
+        // Usuarios
+        List<Usuario> usuarios = Optional.ofNullable(dto.getUsuarios())
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(Objects::nonNull)
+            .map(UsuarioMapper::dtoToUsuarioSimple) // Solo info básica
+            .collect(Collectors.toList());
+        bar.setUsuarios(usuarios);
 
         return bar;
     }

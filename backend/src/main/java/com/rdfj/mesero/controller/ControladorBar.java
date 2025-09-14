@@ -41,11 +41,13 @@ public class ControladorBar {
                         .getContext()
                         .getAuthentication()
                         .getName();
+
+        Bar bar = servicioBar.obtenerBarPorEmailUsuario(email);
+        System.out.println("Bar obtenido: " + bar);
         if (email == null) {
             return ResponseEntity.status(404).body("Usuario no autenticado");
         }
 
-        Bar bar = servicioBar.obtenerBarPorEmailUsuario(email);
 
         return ResponseEntity.ok(BarMapper.barToDTO(bar));
         } catch (Exception e) {
