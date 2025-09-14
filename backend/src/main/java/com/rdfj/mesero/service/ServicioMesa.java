@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rdfj.mesero.entity.Bar;
 import com.rdfj.mesero.entity.Mesa;
+import com.rdfj.mesero.repository.RepositorioBar;
 import com.rdfj.mesero.repository.RepositorioMesa;
 
 @Service
@@ -14,11 +16,18 @@ public class ServicioMesa {
     @Autowired
     private RepositorioMesa repositorioMesa;
 
+    @Autowired
+    private RepositorioBar repositorioBar;
+
     // Añadir mesa
     public Mesa añadirMesa(Mesa mesa){
         if (existsByNumeroMesa(mesa.getNumeroMesa())) {
             throw new RuntimeException("Ya existe una mesa con este número");
         }
+        int barid = mesa.getBar().getId();
+        Bar bar = repositorioBar.findById(barid)
+                        .orElseThrow(() -> new RuntimeException("Bar no existe"));
+        mesa.setBar(bar);
         return repositorioMesa.save(mesa);
     }
 

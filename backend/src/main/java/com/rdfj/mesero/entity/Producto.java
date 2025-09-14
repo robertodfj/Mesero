@@ -1,5 +1,7 @@
 package com.rdfj.mesero.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -40,6 +42,7 @@ public class Producto {
     // Relación con Bar (cada producto pertenece a un bar)
     @ManyToOne
     @JoinColumn(name = "bar_id", nullable = false)
+    @JsonBackReference
     private Bar bar;
 
     // Relación con Inventario (cada producto pertenece a un inventario)

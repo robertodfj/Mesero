@@ -3,6 +3,8 @@ package com.rdfj.mesero.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ public class Inventario {
 
     @OneToOne
     @JoinColumn(name = "bar_id", nullable = false)
+    @JsonBackReference
     private Bar bar;
 
     @OneToMany(mappedBy = "inventario", cascade = CascadeType.ALL, orphanRemoval = true)

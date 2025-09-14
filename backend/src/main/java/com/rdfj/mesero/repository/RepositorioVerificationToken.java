@@ -10,5 +10,5 @@ import com.rdfj.mesero.entity.VerificationToken;
 
 public interface RepositorioVerificationToken extends JpaRepository<VerificationToken, Long> {
     Optional<VerificationToken> findByToken(String token);
-    void deleteAllbyUsuario(Usuario usuario);
+    void deleteAllByUsuario(Usuario usuario);
 } 

@@ -118,7 +118,7 @@ public class AuthService {
         }
 
         // Eliminar antiguos token
-        repositorioVerificationToken.deleteAllbyUsuario(usuario);
+        repositorioVerificationToken.deleteAllByUsuario(usuario);
 
         // Generar token de verificación
         String token = UUID.randomUUID().toString();

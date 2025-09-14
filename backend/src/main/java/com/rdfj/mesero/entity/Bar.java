@@ -3,6 +3,8 @@ package com.rdfj.mesero.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,17 +33,21 @@ public class Bar {
     private String telefono;
 
     @OneToMany(mappedBy="bar", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Producto> productos;
 
     @OneToOne(mappedBy="bar")
+    @JsonManagedReference
     private Inventario inventario;
 
     // Creamos un array vacio para evitar nullpointexception
 
     @OneToMany(mappedBy = "bar", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Mesa> mesas = new ArrayList<>();
 
     @OneToMany(mappedBy = "bar", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private  List<Usuario> usuarios = new ArrayList<>();
 
     // Constructor
