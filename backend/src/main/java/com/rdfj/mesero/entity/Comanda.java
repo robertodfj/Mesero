@@ -32,7 +32,7 @@ public class Comanda {
     @NotNull(message = "La fecha de inicio no puede estar vacia")
     private Date fechaInicio;
 
-    @NotNull(message = "La decha de finalizacion no puede estar vacia")
+    // Quitamos el NotNull por que al abrir la comanda no sabemos cuando acaba
     private Date fechaFin;
 
     public enum Estado{

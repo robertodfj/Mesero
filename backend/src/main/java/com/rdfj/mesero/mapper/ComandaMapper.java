@@ -8,20 +8,16 @@ import com.rdfj.mesero.dto.DetalleComandaDTO;
 import com.rdfj.mesero.entity.Comanda;
 import com.rdfj.mesero.entity.DetalleComanda;
 
-
 public class ComandaMapper {
 
+    // De entidad a DTO
     public static ComandaDTO comandaToDTO(Comanda comanda){
-        if (comanda == null) {
-            return null;
-        }
+        if (comanda == null) return null;
+
         ComandaDTO dto = new ComandaDTO();
-        dto.setId(comanda.getId());
-        dto.setFechaFin(comanda.getFechaFin());
-        dto.setFechaInicio(comanda.getFechaInicio());
-        dto.setMesa(MesaMapper.mesaToDTO(comanda.getMesa()));
         dto.setTotal(comanda.getTotal());
         dto.setEstado(comanda.getEstado());
+        dto.setNumeroMesa(comanda.getMesa() != null ? comanda.getMesa().getNumeroMesa() : 0);
 
         if(comanda.getDetalles() != null) {
             List<DetalleComandaDTO> detallesDTO = comanda.getDetalles()
@@ -30,18 +26,15 @@ public class ComandaMapper {
                 .collect(Collectors.toList());
             dto.setDetalles(detallesDTO);
         }
+
         return dto;
     }
 
+    // De DTO a entidad (solo detalles, Mesa y Bar se asignan en el servicio)
     public static Comanda dtoToComanda(ComandaDTO comandaDTO){
-        if (comandaDTO == null) {
-            return null;
-        }
+        if (comandaDTO == null) return null;
+
         Comanda entity = new Comanda();
-        entity.setId(comandaDTO.getId());
-        entity.setFechaFin(comandaDTO.getFechaFin());
-        entity.setFechaInicio(comandaDTO.getFechaInicio());
-        entity.setMesa(MesaMapper.dtoToMesa(comandaDTO.getMesa())); 
         entity.setTotal(comandaDTO.getTotal());
         entity.setEstado(comandaDTO.getEstado());
 
@@ -52,6 +45,7 @@ public class ComandaMapper {
                 .collect(Collectors.toList());
             entity.setDetalles(detallesEntity);
         }
+
         return entity;
     }
 

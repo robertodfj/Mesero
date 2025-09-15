@@ -15,7 +15,6 @@ import com.rdfj.mesero.dto.ComandaDTO;
 import com.rdfj.mesero.dto.DetalleComandaDTO;
 import com.rdfj.mesero.entity.Comanda;
 import com.rdfj.mesero.entity.DetalleComanda;
-import com.rdfj.mesero.mapper.ComandaMapper;
 import com.rdfj.mesero.mapper.DetalleComandaMapper;
 import com.rdfj.mesero.service.ServicioComanda;
 
@@ -30,8 +29,7 @@ public class ControladorComanda {
     @PostMapping("/abrir")
     public ResponseEntity<?> abirComanda(@RequestBody ComandaDTO dto){
         try {
-            Comanda comanda = ComandaMapper.dtoToComanda(dto);
-            servicioComanda.añadirComanda(comanda);
+            servicioComanda.añadirComanda(dto);
             return ResponseEntity.ok("Comanda abierta correctamente");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al abrir comanda: "+e.getMessage());

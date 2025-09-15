@@ -10,4 +10,5 @@ public interface RepositorioMesa extends JpaRepository<Mesa, Integer> {
     Optional<Mesa> findByNumeroMesa(Integer numeroMesa);
     boolean existsByNumeroMesa(Integer numeroMesa);
     void deleteByNumeroMesa(Integer numeroMesa);
-} 
+    Optional<Mesa> findByNumeroMesaAndBarId(int numeroMesa, int barId);
+}

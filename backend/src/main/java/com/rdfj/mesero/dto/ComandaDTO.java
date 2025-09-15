@@ -1,72 +1,33 @@
 package com.rdfj.mesero.dto;
 
-import java.sql.Date;
 import java.util.List;
-
-import com.rdfj.mesero.entity.Comanda.Estado;;
+import com.rdfj.mesero.entity.Comanda.Estado;
 
 public class ComandaDTO {
     
     private int id;
-    private MesaDTO mesa;
-    private Date fechaInicio;
-    private Date fechaFin;
-    private Estado estado;
+    private int numeroMesa;       
     private List<DetalleComandaDTO> detalles;
+    private Estado estado;
     private double total;
 
-    // Constructor
-    public ComandaDTO() {
+    // Constructor 
+    public ComandaDTO() {}
 
-    }
-
-    public ComandaDTO(MesaDTO mesa, Date fechaInicio, Estado estado, double total) {
-        this.mesa = mesa;
-        this.fechaInicio = fechaInicio;
+    public ComandaDTO(int numeroMesa, Estado estado, double total, List<DetalleComandaDTO> detalles) {
+        this.numeroMesa = numeroMesa;
         this.estado = estado;
         this.total = total;
+        this.detalles = detalles;
     }
 
     // Getters y setters
-
-    public int getId() {
-        return id;
+    public int getNumeroMesa() {
+        return numeroMesa;
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
-
-    public MesaDTO getMesa() {
-        return mesa;
-    }
-
-    public void setMesa(MesaDTO mesa) {
-        this.mesa = mesa;
-    }
-
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
     }
 
     public List<DetalleComandaDTO> getDetalles() {
@@ -77,6 +38,14 @@ public class ComandaDTO {
         this.detalles = detalles;
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     public double getTotal() {
         return total;
     }
@@ -85,11 +54,11 @@ public class ComandaDTO {
         this.total = total;
     }
 
-    public double calcularTotal(){
-        if (detalles == null || detalles.isEmpty()) {
-            return 0.0;
-        } return detalles.stream()
-                            .mapToDouble(DetalleComandaDTO::getSubtotal)
-                            .sum();
+    // Método para calcular total desde los detalles
+    public double calcularTotal() {
+        if (detalles == null || detalles.isEmpty()) return 0.0;
+        return detalles.stream()
+                       .mapToDouble(DetalleComandaDTO::getSubtotal)
+                       .sum();
     }
 }
