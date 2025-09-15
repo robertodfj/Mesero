@@ -14,6 +14,8 @@ public class ProductoMapper {
         dto.setId(producto.getId());
         dto.setNombre(producto.getNombre());
         dto.setCategoria(producto.getCategoria());
+        dto.setPrecioCompra(producto.getPrecioCompraUD());
+        dto.setPrecioVenta(producto.getPrecioVentaUD());
 
         // Relación con Bar
         if (producto.getBar() != null) {
@@ -37,6 +39,8 @@ public class ProductoMapper {
         producto.setId(dto.getId());
         producto.setNombre(dto.getNombre());
         producto.setCategoria(dto.getCategoria());
+        producto.setPrecioCompraUD(dto.getPrecioCompra());
+        producto.setPrecioVentaUD(dto.getPrecioVenta());
 
         // Relación con Bar
         if (dto.getBar() != null) {

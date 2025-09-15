@@ -8,7 +8,10 @@ public class ProductoDTO {
 
     private String nombre;
 
-    private double precio;
+    private double precioCompra;
+
+    private double precioVenta;
+
 
     private Categoria categoria;
 
@@ -18,10 +21,11 @@ public class ProductoDTO {
 
     public ProductoDTO() {}
 
-    public ProductoDTO(int id, String nombre, double precio, Categoria categoria) {
+    public ProductoDTO(int id, String nombre, double precioCompra, double precioVenta, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
-        this.precio = precio;
+        this.precioCompra = precioCompra;
+        this.precioVenta = precioVenta;
         this.categoria = categoria;
     }
 
@@ -42,12 +46,20 @@ public class ProductoDTO {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrecioCompra() {
+        return precioCompra;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecioCompra(double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
+
+    public double getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(double precioVenta) {
+        this.precioVenta = precioVenta;
     }
 
     public Categoria getCategoria() {

@@ -44,7 +44,7 @@ public class ControladorProducto {
 
             servicioProducto.editarProducto(id, productoEditado.getNombre(), productoEditado.getPrecioCompraUD(), productoEditado.getPrecioVentaUD(), productoEditado.getCategoria());
 
-            return ResponseEntity.ok("Producto editado correctamente: " + productoEditado);
+            return ResponseEntity.ok("Producto editado correctamente: " + productoEditado.getNombre());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al editar producto: " +e.getMessage());
         }

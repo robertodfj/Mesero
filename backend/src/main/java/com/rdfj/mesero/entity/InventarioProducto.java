@@ -1,5 +1,8 @@
 package com.rdfj.mesero.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,10 +21,12 @@ public class InventarioProducto {
 
     @ManyToOne
     @JoinColumn(name = "inventario_id", nullable = false)
+    @JsonBackReference
     private Inventario inventario;
 
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonManagedReference
     private Producto producto;
 
     @Min(value = 0, message = "La cantidad no puede ser negativa")
