@@ -32,7 +32,7 @@ public class Comanda {
     @NotNull(message = "La fecha de inicio no puede estar vacia")
     private Date fechaInicio;
 
-    // Quitamos el NotNull por que al abrir la comanda no sabemos cuando acaba
+    // Quitamos el NotNull por no tener de momento fecha fin (Editar tambien en mysql si se creo la tabla antes con el)
     private Date fechaFin;
 
     public enum Estado{
