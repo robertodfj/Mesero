@@ -17,7 +17,7 @@ import com.rdfj.mesero.service.ServicioMesa;
 
 @RestController
 @RequestMapping("/mesa")
-public class MesaControlador {
+public class ControladorMesa {
     
     @Autowired
     private ServicioMesa servicioMesa;
